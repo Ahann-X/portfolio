@@ -767,9 +767,50 @@
       transition: width 0.1s;
     }
 
+    #ellipsis-btn {
+      display: none;
+      background: transparent;
+      border: none;
+      font-size: 1.8rem;
+      color: var(--accent);
+      cursor: pointer;
+    }
+
+    #mobile-menu {
+      position: fixed;
+      top: 60px;
+      right: 1rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 1rem;
+      padding: 0.5rem;
+      display: none;
+      z-index: 999;
+      min-width: 160px;
+    }
+
+    #mobile-menu ul {
+      list-style: none;
+    }
+
+    #mobile-menu ul li {
+      padding: 0.8rem 1.2rem;
+      color: var(--text);
+      font-size: 0.9rem;
+      cursor: pointer;
+      border-radius: 0.5rem;
+    }
+
+    #mobile-menu ul li:hover {
+      background: var(--surface2);
+    }
+
     @media (max-width: 768px) {
       .nav-links {
         display: none;
+      }
+      #ellipsis-btn {
+        display: block;
       }
       .hero {
         padding: 6rem 1.2rem 3rem;
@@ -833,26 +874,21 @@
           onclick="event.preventDefault();document.querySelector('.proj-sec').scrollIntoView({behavior:'smooth'})">Proyek</a>
       </li>
     </ul>
-    <div style="display: flex; align-items: center; gap: 1rem;">
-      <button class="toggle-btn desktop-toggle" onclick="toggleMode()">
-        <span class="toggle-icon">🌙</span>
-        <span class="toggleLabel">Dark</span>
-      </button>
-      <button class="hamburger-btn" onclick="toggleMobileMenu()">☰</button>
-    </div>
-    
-    <div class="mobile-dropdown" id="mobileDropdown">
-      <ul class="mobile-links">
-        <li><a href="#" onclick="closeMobileMenu(); event.preventDefault();document.querySelector('.about-sec').scrollIntoView({behavior:'smooth'})">Tentang</a></li>
-        <li><a href="#" onclick="closeMobileMenu(); event.preventDefault();document.querySelector('.stack-sec').scrollIntoView({behavior:'smooth'})">Skills</a></li>
-        <li><a href="#" onclick="closeMobileMenu(); event.preventDefault();document.querySelector('.proj-sec').scrollIntoView({behavior:'smooth'})">Proyek</a></li>
-      </ul>
-      <button class="toggle-btn" onclick="toggleMode()" style="margin-top: 1.5rem;">
-        <span class="toggle-icon">🌙</span>
-        <span class="toggleLabel">Dark</span>
-      </button>
-    </div>
+    <button class="toggle-btn" onclick="toggleMode()" id="toggleBtn">
+      <span class="toggle-icon" id="toggleIcon">🌙</span>
+      <span id="toggleLabel">Dark</span>
+    </button>
+    <button id="ellipsis-btn" onclick="toggleMobileMenu()">⋮</button>
   </nav>
+
+  <div id="mobile-menu">
+    <ul>
+      <li onclick="mobileScroll('.about-sec')">Tentang</li>
+      <li onclick="mobileScroll('.stack-sec')">Skills</li>
+      <li onclick="mobileScroll('.proj-sec')">Proyek</li>
+      <li onclick="toggleMode();closeMobileMenu()">🌙 Dark / Light</li>
+    </ul>
+  </div>
 
   <div class="canvas">
     <div class="orbit"></div>
@@ -1063,26 +1099,34 @@
     let dark = true;
     function toggleMode() {
       dark = !dark;
-      const icons = document.querySelectorAll('.toggle-icon');
-      const labels = document.querySelectorAll('.toggleLabel');
-      if (dark) {
-        body.classList.remove('light');
-        icons.forEach(i => i.textContent = '🌙');
-        labels.forEach(l => l.textContent = 'Dark');
-      } else {
-        body.classList.add('light');
-        icons.forEach(i => i.textContent = '☀️');
-        labels.forEach(l => l.textContent = 'Light');
+      const btn = document.getElementById('toggleBtn');
+      const icon = document.getElementById('toggleIcon');
+      const label = document.getElementById('toggleLabel');
+      if (dark) { body.classList.remove('light'); icon.textContent = '🌙'; label.textContent = 'Dark'; }
+      else { body.classList.add('light'); icon.textContent = '☀️'; label.textContent = 'Light'; }
+    }
+
+    function toggleMobileMenu(){
+      const menu = document.getElementById('mobile-menu');
+      menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function closeMobileMenu(){
+      document.getElementById('mobile-menu').style.display = 'none';
+    }
+
+    function mobileScroll(selector){
+      document.querySelector(selector).scrollIntoView({behavior:'smooth'});
+      closeMobileMenu();
+    }
+
+    document.addEventListener('click', function(e){
+      const menu = document.getElementById('mobile-menu');
+      const btn = document.getElementById('ellipsis-btn');
+      if(menu && btn && !menu.contains(e.target) && !btn.contains(e.target)){
+        closeMobileMenu();
       }
-    }
-
-    function toggleMobileMenu() {
-      document.getElementById('mobileDropdown').classList.toggle('active');
-    }
-
-    function closeMobileMenu() {
-      document.getElementById('mobileDropdown').classList.remove('active');
-    }
+    });
     const observer = new IntersectionObserver(entries => {
       entries.forEach(e => {
         if (e.isIntersecting) {
