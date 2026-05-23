@@ -809,38 +809,48 @@
       .nav-links {
         display: none;
       }
+
       #ellipsis-btn {
         display: block;
       }
+
       .hero {
         padding: 6rem 1.2rem 3rem;
       }
+
       .hero h1 {
         font-size: clamp(2.5rem, 10vw, 4rem);
       }
+
       .hero p {
         font-size: 1rem;
       }
+
       .hero-btns {
         flex-direction: column;
         width: 100%;
       }
+
       .float-cards {
         display: none;
       }
+
       .about-grid,
       .proj-grid {
         grid-template-columns: 1fr;
       }
+
       .stack-grid {
         grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
       }
+
       .about-sec,
       .stack-sec,
       .proj-sec {
         padding-left: 1.2rem;
         padding-right: 1.2rem;
       }
+
       .orbit,
       .orbit2 {
         display: none;
@@ -1106,24 +1116,24 @@
       else { body.classList.add('light'); icon.textContent = '☀️'; label.textContent = 'Light'; }
     }
 
-    function toggleMobileMenu(){
+    function toggleMobileMenu() {
       const menu = document.getElementById('mobile-menu');
       menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
     }
 
-    function closeMobileMenu(){
+    function closeMobileMenu() {
       document.getElementById('mobile-menu').style.display = 'none';
     }
 
-    function mobileScroll(selector){
-      document.querySelector(selector).scrollIntoView({behavior:'smooth'});
+    function mobileScroll(selector) {
+      document.querySelector(selector).scrollIntoView({ behavior: 'smooth' });
       closeMobileMenu();
     }
 
-    document.addEventListener('click', function(e){
+    document.addEventListener('click', function (e) {
       const menu = document.getElementById('mobile-menu');
       const btn = document.getElementById('ellipsis-btn');
-      if(menu && btn && !menu.contains(e.target) && !btn.contains(e.target)){
+      if (menu && btn && !menu.contains(e.target) && !btn.contains(e.target)) {
         closeMobileMenu();
       }
     });
