@@ -307,6 +307,8 @@
       cursor: none;
       transition: all .2s;
       letter-spacing: .02em;
+      text-decoration: none;
+      display: inline-block;
     }
 
     .btn-primary:hover {
@@ -326,6 +328,8 @@
       cursor: none;
       transition: all .2s;
       letter-spacing: .02em;
+      text-decoration: none;
+      display: inline-block;
     }
 
     .btn-outline:hover {
@@ -691,36 +695,6 @@
       }
     }
 
-    @media(max-width:900px) {
-      nav {
-        padding: 1rem 1.5rem
-      }
-
-      .hero {
-        padding: 7rem 1.5rem 3rem
-      }
-
-      .about-grid {
-        grid-template-columns: 1fr
-      }
-
-      .float-cards {
-        display: none
-      }
-
-      .proj-grid {
-        grid-template-columns: 1fr
-      }
-
-      .about-sec,
-      .stack-sec,
-      .proj-sec {
-        padding-left: 1.5rem;
-        padding-right: 1.5rem
-      }
-    }
-
-    /* Custom Additions */
     .loader {
       position: fixed;
       inset: 0;
@@ -774,11 +748,12 @@
       font-size: 1.8rem;
       color: var(--accent);
       cursor: pointer;
+      padding: 0 0.3rem;
     }
 
     #mobile-menu {
       position: fixed;
-      top: 60px;
+      top: 65px;
       right: 1rem;
       background: var(--surface);
       border: 1px solid var(--border);
@@ -805,13 +780,46 @@
       background: var(--surface2);
     }
 
+    @media (max-width: 900px) {
+      nav {
+        padding: 1rem 1.5rem
+      }
+
+      .hero {
+        padding: 7rem 1.5rem 3rem
+      }
+
+      .about-grid {
+        grid-template-columns: 1fr
+      }
+
+      .float-cards {
+        display: none
+      }
+
+      .proj-grid {
+        grid-template-columns: 1fr
+      }
+
+      .about-sec,
+      .stack-sec,
+      .proj-sec {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem
+      }
+    }
+
     @media (max-width: 768px) {
       .nav-links {
-        display: none;
+        display: none !important;
+      }
+
+      #toggleBtn {
+        display: none !important;
       }
 
       #ellipsis-btn {
-        display: block;
+        display: block !important;
       }
 
       .hero {
@@ -820,6 +828,7 @@
 
       .hero h1 {
         font-size: clamp(2.5rem, 10vw, 4rem);
+        letter-spacing: -1px;
       }
 
       .hero p {
@@ -829,6 +838,14 @@
       .hero-btns {
         flex-direction: column;
         width: 100%;
+        gap: 0.8rem;
+      }
+
+      .btn-primary,
+      .btn-outline {
+        width: 100%;
+        text-align: center;
+        padding: 1rem 2rem;
       }
 
       .float-cards {
@@ -916,7 +933,7 @@
       <div class="hero-btns">
         <button class="btn-primary"
           onclick="document.querySelector('.proj-sec').scrollIntoView({behavior:'smooth'})">Lihat Proyek</button>
-        <a href="https://wa.me/62895806666030" target="_blank" class="btn-outline">Hubungi Saya</a>
+        <a href="https://wa.me/6289580666030" target="_blank" class="btn-outline">Hubungi Saya</a>
         <a href="https://github.com/Ahann-X" target="_blank" class="btn-outline">GitHub</a>
       </div>
     </section>
@@ -1072,7 +1089,7 @@
       <div class="proj-card">
         <div class="proj-num">05</div>
         <div class="proj-title">Sistem Pemilihan Kades</div>
-        <div class="proj-desc">Sistem berbasis web untuk merekap hasil pemilihan kepala desa secara digital</div>
+        <div class="proj-desc">Sistem berbasis web untuk merekap hasil pemilihan kepala desa secara digital.</div>
         <div class="proj-tags"><span class="proj-tag">PHP</span><span class="proj-tag">MySQL</span></div>
       </div>
     </div>
@@ -1085,7 +1102,7 @@
     <a href="https://github.com/Ahann-X" target="_blank"
       style="color:var(--accent);font-size:.85rem;text-decoration:none;">github.com/Ahann-X</a>
     <br><br>
-    <p>Dibuat dengan ☕ dan semangat belajar — 2024</p>
+    <p>Dibuat dengan ☕ dan semangat belajar — 2025</p>
   </footer>
 
   <script>
@@ -1109,27 +1126,22 @@
     let dark = true;
     function toggleMode() {
       dark = !dark;
-      const btn = document.getElementById('toggleBtn');
       const icon = document.getElementById('toggleIcon');
       const label = document.getElementById('toggleLabel');
       if (dark) { body.classList.remove('light'); icon.textContent = '🌙'; label.textContent = 'Dark'; }
       else { body.classList.add('light'); icon.textContent = '☀️'; label.textContent = 'Light'; }
     }
-
     function toggleMobileMenu() {
       const menu = document.getElementById('mobile-menu');
       menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
     }
-
     function closeMobileMenu() {
       document.getElementById('mobile-menu').style.display = 'none';
     }
-
     function mobileScroll(selector) {
       document.querySelector(selector).scrollIntoView({ behavior: 'smooth' });
       closeMobileMenu();
     }
-
     document.addEventListener('click', function (e) {
       const menu = document.getElementById('mobile-menu');
       const btn = document.getElementById('ellipsis-btn');
@@ -1148,21 +1160,16 @@
     }, { threshold: .3 });
     const sw = document.getElementById('skillWrap');
     if (sw) observer.observe(sw);
-
-    // Loader
     window.addEventListener('load', () => {
       setTimeout(() => {
         document.getElementById('loader').classList.add('hidden');
       }, 2000);
     });
-
-    // Scroll Progress
     const scrollProgress = document.getElementById('scroll-progress');
     window.addEventListener('scroll', () => {
       const scrollPx = document.documentElement.scrollTop;
       const winHeightPx = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-      const scrolled = `${(scrollPx / winHeightPx) * 100}%`;
-      scrollProgress.style.width = scrolled;
+      scrollProgress.style.width = `${(scrollPx / winHeightPx) * 100}%`;
     });
   </script>
 </body>
