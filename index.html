@@ -833,10 +833,25 @@
           onclick="event.preventDefault();document.querySelector('.proj-sec').scrollIntoView({behavior:'smooth'})">Proyek</a>
       </li>
     </ul>
-    <button class="toggle-btn" onclick="toggleMode()" id="toggleBtn">
-      <span class="toggle-icon" id="toggleIcon">🌙</span>
-      <span id="toggleLabel">Dark</span>
-    </button>
+    <div style="display: flex; align-items: center; gap: 1rem;">
+      <button class="toggle-btn desktop-toggle" onclick="toggleMode()">
+        <span class="toggle-icon">🌙</span>
+        <span class="toggleLabel">Dark</span>
+      </button>
+      <button class="hamburger-btn" onclick="toggleMobileMenu()">☰</button>
+    </div>
+    
+    <div class="mobile-dropdown" id="mobileDropdown">
+      <ul class="mobile-links">
+        <li><a href="#" onclick="closeMobileMenu(); event.preventDefault();document.querySelector('.about-sec').scrollIntoView({behavior:'smooth'})">Tentang</a></li>
+        <li><a href="#" onclick="closeMobileMenu(); event.preventDefault();document.querySelector('.stack-sec').scrollIntoView({behavior:'smooth'})">Skills</a></li>
+        <li><a href="#" onclick="closeMobileMenu(); event.preventDefault();document.querySelector('.proj-sec').scrollIntoView({behavior:'smooth'})">Proyek</a></li>
+      </ul>
+      <button class="toggle-btn" onclick="toggleMode()" style="margin-top: 1.5rem;">
+        <span class="toggle-icon">🌙</span>
+        <span class="toggleLabel">Dark</span>
+      </button>
+    </div>
   </nav>
 
   <div class="canvas">
@@ -1048,11 +1063,25 @@
     let dark = true;
     function toggleMode() {
       dark = !dark;
-      const btn = document.getElementById('toggleBtn');
-      const icon = document.getElementById('toggleIcon');
-      const label = document.getElementById('toggleLabel');
-      if (dark) { body.classList.remove('light'); icon.textContent = '🌙'; label.textContent = 'Dark'; }
-      else { body.classList.add('light'); icon.textContent = '☀️'; label.textContent = 'Light'; }
+      const icons = document.querySelectorAll('.toggle-icon');
+      const labels = document.querySelectorAll('.toggleLabel');
+      if (dark) {
+        body.classList.remove('light');
+        icons.forEach(i => i.textContent = '🌙');
+        labels.forEach(l => l.textContent = 'Dark');
+      } else {
+        body.classList.add('light');
+        icons.forEach(i => i.textContent = '☀️');
+        labels.forEach(l => l.textContent = 'Light');
+      }
+    }
+
+    function toggleMobileMenu() {
+      document.getElementById('mobileDropdown').classList.toggle('active');
+    }
+
+    function closeMobileMenu() {
+      document.getElementById('mobileDropdown').classList.remove('active');
     }
     const observer = new IntersectionObserver(entries => {
       entries.forEach(e => {
